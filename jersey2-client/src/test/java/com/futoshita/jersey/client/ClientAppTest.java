@@ -45,15 +45,20 @@ public class ClientAppTest {
   @Test
   public void getSecured_Failed_Unauthorized() {
     ClientApp client = new ClientApp();
+    
+    String errorMsg = null;
+    
     try {
       client.get(GET_SECURED_RESOURCE_URI, String.class);
     } catch (Exception e) {
-      Assert.assertEquals("status code: 400, reason: Bad Request", e.getMessage());
+      errorMsg = e.getMessage();
     }
+    
+    Assert.assertEquals("status code: 400, reason: Bad Request, cause: ", errorMsg);
   }
   
   @Test
-  public void checkBadParameter_Success() {
+  public void checkNonUniqueException_Success() {
     ClientApp client = new ClientApp();
     
     try {
@@ -61,16 +66,29 @@ public class ClientAppTest {
     } catch (Exception e) {
       Assert.fail(e.toString());
     }
+    
+    String errorMsg = null;
+    try {
+      client.post(POST_USER_URI, new User("ident", "password", "email@test.com"), MediaType.APPLICATION_JSON_TYPE);
+    } catch (Exception e) {
+      errorMsg = e.getMessage();
+    }
+    
+    Assert.assertEquals("status code: 409, reason: Conflict, cause: User with email email@test.com already exists.", errorMsg);
   }
   
   @Test
   public void checkBadParameter_Failed_NullField() {
     ClientApp client = new ClientApp();
     
+    String errorMsg = null;
+    
     try {
       client.post(POST_USER_URI, new User(null, "password", null), MediaType.APPLICATION_JSON_TYPE);
     } catch (Exception e) {
-      Assert.assertEquals("status code: 400, reason: Bad Request, cause: ", e.getMessage());
+      errorMsg  = e.getMessage();
     }
+    
+    Assert.assertEquals("status code: 400, reason: Bad Request, cause: ", errorMsg);
   }
 }

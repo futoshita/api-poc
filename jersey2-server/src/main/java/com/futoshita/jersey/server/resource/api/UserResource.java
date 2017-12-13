@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.futoshita.jersey.server.entity.User;
 import com.futoshita.jersey.server.entity.constraint.HasId;
 import com.futoshita.jersey.server.service.StorageService;
+import com.futoshita.jersey.server.service.exception.NonUniqueException;
 
 @Path("/users")
 public class UserResource {
@@ -28,9 +29,8 @@ public class UserResource {
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  @NotNull(message = "{user.already.exist}")
   @HasId
-  public User addUser(@NotNull @Valid User user) {
+  public User addUser(@NotNull @Valid User user) throws NonUniqueException {
     return StorageService.addUser(user);
   }
   

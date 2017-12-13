@@ -16,6 +16,8 @@ import org.glassfish.jersey.client.oauth1.ConsumerCredentials;
 import org.glassfish.jersey.client.oauth1.OAuth1AuthorizationFlow;
 import org.glassfish.jersey.client.oauth1.OAuth1ClientSupport;
 
+import com.futoshita.jersey.client.entity.ErrorRepresentation;
+
 public class ClientApp {
   
   private Feature oauth1Feature;
@@ -72,18 +74,25 @@ public class ClientApp {
   
   public <T> void post(String uri, T entity, MediaType mediaType) throws Exception {
     Client client = ClientBuilder.newBuilder().build();
-    Response response = client.target(uri)
-                              .request()
-                              .accept(mediaType)
-                              .post(Entity.entity(entity, mediaType));
+    Response response = client.target(uri).request().accept(mediaType).post(Entity.entity(entity, mediaType));
     
     checkStatus(response, 200);
   }
   
   private void checkStatus(Response response, int expectedStatus) throws Exception {
     if (response.getStatus() != expectedStatus) {
-      //String errorMessage = response.hasEntity() ? response.readEntity(String.class) : null;
-      String errorMessage = "";
+      String errorMessage = null;
+      
+      if (response.hasEntity()) {
+        try {
+          ErrorRepresentation error = response.readEntity(ErrorRepresentation.class);
+          errorMessage = error.getMessage();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      } else {
+        // TODO
+      }
       
       throw new Exception("status code: " + response.getStatus() + ", reason: "
           + response.getStatusInfo().getReasonPhrase() + ", cause: " + errorMessage);

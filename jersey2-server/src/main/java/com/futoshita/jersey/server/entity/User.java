@@ -1,15 +1,22 @@
 package com.futoshita.jersey.server.entity;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
-@XmlRootElement
-public class User {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "user")
+public class User implements Serializable {
+  
+  private static final long serialVersionUID = 1L;
   
   @DecimalMin(value = "1")
   private Long id;

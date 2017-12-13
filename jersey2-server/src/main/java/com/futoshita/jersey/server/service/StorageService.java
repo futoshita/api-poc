@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.futoshita.jersey.server.entity.User;
+import com.futoshita.jersey.server.service.exception.NonUniqueException;
 
 public class StorageService {
   
@@ -22,10 +23,11 @@ public class StorageService {
    *          user to be added.
    * @return user with pre-filled {@code id} field, {@code null} if the user
    *         already exist in the storage.
+   * @throws NonUniqueException
    */
-  public static User addUser(final User user) {
+  public static User addUser(final User user) throws NonUniqueException {
     if (users.containsValue(user)) {
-      return null;
+      throw new NonUniqueException("User with email " + user.getEmail() + " already exists.");
     }
     
     user.setId(userCounter.incrementAndGet());
