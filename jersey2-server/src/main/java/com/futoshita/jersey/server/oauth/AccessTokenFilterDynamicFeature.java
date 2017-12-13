@@ -17,16 +17,18 @@ public class AccessTokenFilterDynamicFeature implements DynamicFeature {
   
   @Override
   public void configure(ResourceInfo resourceInfo, FeatureContext context) {
-    final String resourcePackage = resourceInfo.getResourceClass().getPackage().getName();
-    final Method resourceMethod = resourceInfo.getResourceMethod();
+    final String resourcePackageName = resourceInfo.getResourceClass().getPackage().getName();
+    final String resourceClassName = resourceInfo.getResourceClass().getName();
+    final Method resourceMethodName = resourceInfo.getResourceMethod();
     
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("resourcePackage: {}", resourcePackage);
-      LOGGER.debug("AccessTokenRequired: {}", resourceMethod.isAnnotationPresent(AccessTokenRequired.class));
+      LOGGER.debug("resourcePackage: {}, resourceClass: {}, resourceMehtod: {}", resourcePackageName, resourceClassName,
+          resourceMethodName);
+      LOGGER.debug("AccessTokenRequired: {}", resourceMethodName.isAnnotationPresent(AccessTokenRequired.class));
     }
     
-    if ("com.futoshita.jersey.server.resources.api".equals(resourcePackage)
-        && resourceMethod.isAnnotationPresent(AccessTokenRequired.class)) {
+    if ("com.futoshita.jersey.server.resource.api".equals(resourcePackageName)
+        && resourceMethodName.isAnnotationPresent(AccessTokenRequired.class)) {
       context.register(AccessTokenFilter.class);
     }
   }
