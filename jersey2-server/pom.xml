@@ -96,6 +96,14 @@
                     <webResources>
                         <resource>
                             <filtering>true</filtering>
+                            <directory>src/main/resources</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <includes>
+                                <include>**/logback.xml</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <filtering>true</filtering>
                             <directory>src/main/webapp</directory>
                             <includes>
                                 <include>**/web.xml</include>

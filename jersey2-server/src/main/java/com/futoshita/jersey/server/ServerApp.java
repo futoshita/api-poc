@@ -13,7 +13,6 @@ import org.glassfish.jersey.server.validation.ValidationConfig;
 import org.glassfish.jersey.server.validation.internal.InjectingConstraintValidatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import javax.validation.ParameterNameProvider;
 import javax.validation.Validation;
@@ -25,8 +24,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 
 public class ServerApp extends ResourceConfig {
 
@@ -37,13 +34,7 @@ public class ServerApp extends ResourceConfig {
             LOGGER.debug("initializing resources logging...");
         }
 
-        // redirection des logs vers logback
-        LogManager.getLogManager().reset();
-        SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
-
-        register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), Level.INFO,
-                LoggingFeature.Verbosity.PAYLOAD_ANY, 21474836));
+        register(LoggingFeature.class);
 
         // Enable Tracing support.
         property(ServerProperties.TRACING, "ALL");
