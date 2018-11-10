@@ -23,7 +23,7 @@ public class UnexpectedExceptionMapper implements ExceptionMapper<Throwable> {
     ErrorRepresentation error = new ErrorRepresentation();
     error.setMessage(ex.getMessage());
     
-    return Response.status(Status.CONFLICT).entity(error).type(MediaType.APPLICATION_JSON).build();
+    return Response.status(Status.INTERNAL_SERVER_ERROR).entity(error).type(MediaType.APPLICATION_JSON).build();
   }
   
 }

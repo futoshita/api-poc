@@ -13,7 +13,7 @@ import com.futoshita.jersey.server.entity.User;
 
 /**
  * Checks whether a given
- * {@link org.glassfish.jersey.examples.beanvalidation.webapp.domain.User}
+ * {@link com.futoshita.jersey.server.entity.User}
  * entity has ID. Only return values are supposed to be annotated with this
  * annotation.
  *
