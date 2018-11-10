@@ -53,7 +53,7 @@ public class ClientAppTest {
             errorMsg = e.getMessage();
         }
 
-        Assert.assertEquals("status code: 400, reason: Bad Request, cause: ", errorMsg);
+        Assert.assertEquals("status code: 400, reason: Bad Request, cause: OAuth parameters not found.", errorMsg);
     }
 
     @Test
@@ -88,6 +88,6 @@ public class ClientAppTest {
             errorMsg = e.getMessage();
         }
 
-        Assert.assertEquals("status code: 400, reason: Bad Request, cause: ", errorMsg);
+        Assert.assertEquals("status code: 400, reason: Bad Request, cause: Ident of the user should contain at least 2 letters.", errorMsg);
     }
 }

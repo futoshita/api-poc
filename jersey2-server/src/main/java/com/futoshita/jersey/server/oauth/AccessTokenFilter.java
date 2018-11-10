@@ -18,7 +18,6 @@ import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 
 @Priority(Priorities.AUTHORIZATION)
 public class AccessTokenFilter implements ContainerRequestFilter {
@@ -35,7 +34,7 @@ public class AccessTokenFilter implements ContainerRequestFilter {
     }
 
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) {
         String authHeader = requestContext.getHeaderString(OAuth1Parameters.AUTHORIZATION_HEADER);
 
         if (authHeader == null || !authHeader.toUpperCase().startsWith(OAuth1Parameters.SCHEME.toUpperCase())) {
@@ -70,7 +69,7 @@ public class AccessTokenFilter implements ContainerRequestFilter {
 
             if (!sigIsOk) {
                 // signature invalid
-                throw new OAuth1Exception(Response.Status.UNAUTHORIZED, "invalid OAuth parameters.");
+                throw new OAuth1Exception(Response.Status.UNAUTHORIZED, "invalid OAuth1 parameters.");
             }
         }
     }
