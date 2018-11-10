@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+  <display-name>${project.build.finalName} ${project.version}</display-name>
+
+  <servlet>
+    <servlet-name>ServerApp</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>com.futoshita.api.server.ServerApp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>jersey.config.beanValidation.enableOutputValidationErrorEntity.server</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServerApp</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+
+</web-app>

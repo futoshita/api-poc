@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.futoshita</groupId>
-    <artifactId>jersey2</artifactId>
+    <artifactId>api</artifactId>
     <version>1.0.0-1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -153,8 +153,8 @@
     </dependencies>
 
     <modules>
-        <module>jersey2-client</module>
-        <module>jersey2-server</module>
+        <module>api-sdk</module>
+        <module>api-server</module>
     </modules>
 
 </project>
