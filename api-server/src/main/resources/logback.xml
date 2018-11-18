@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
-        <resetJUL>true</resetJUL>
-    </contextListener>
+    <!--<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">-->
+        <!--<resetJUL>true</resetJUL>-->
+    <!--</contextListener>-->
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -18,12 +18,12 @@
         </encoder>
     </appender>
 
-    <logger name="com.futoshita" level="debug" additivity="false">
-        <appender-ref ref="FILE"/>
-    </logger>
+    <!--<logger name="com.futoshita" level="DEBUG" additivity="false">-->
+        <!--<appender-ref ref="FILE"/>-->
+    <!--</logger>-->
 
     <root>
-        <level value="WARN"/>
+        <level value="DEBUG"/>
         <appender-ref ref="FILE"/>
     </root>
 </configuration>
