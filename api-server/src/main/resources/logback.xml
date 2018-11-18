@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!--<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">-->
-        <!--<resetJUL>true</resetJUL>-->
-    <!--</contextListener>-->
+
+    <property resource="app.properties"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -11,19 +10,16 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/Applications/apache-tomcat-8.5.35/logs/${project.build.finalName}-${project.version}.log</file>
+        <file>${LOG_DIR}/${project.build.finalName}-${project.version}.log</file>
         <append>true</append>
         <encoder>
             <pattern>%d{dd-MMM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!--<logger name="com.futoshita" level="DEBUG" additivity="false">-->
-        <!--<appender-ref ref="FILE"/>-->
-    <!--</logger>-->
-
     <root>
         <level value="DEBUG"/>
         <appender-ref ref="FILE"/>
     </root>
+
 </configuration>
