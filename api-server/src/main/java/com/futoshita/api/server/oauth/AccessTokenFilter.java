@@ -1,11 +1,12 @@
 package com.futoshita.api.server.oauth;
 
+import com.futoshita.api.server.oauth.exception.OAuth1BadRequestException;
+import com.futoshita.api.server.oauth.exception.OAuth1UnauthorizedException;
 import org.glassfish.jersey.oauth1.signature.OAuth1Parameters;
 import org.glassfish.jersey.oauth1.signature.OAuth1Secrets;
 import org.glassfish.jersey.oauth1.signature.OAuth1Signature;
 import org.glassfish.jersey.oauth1.signature.OAuth1SignatureException;
 import org.glassfish.jersey.server.oauth1.OAuth1Consumer;
-import org.glassfish.jersey.server.oauth1.OAuth1Exception;
 import org.glassfish.jersey.server.oauth1.OAuth1Provider;
 import org.glassfish.jersey.server.oauth1.OAuth1Token;
 import org.glassfish.jersey.server.oauth1.internal.OAuthServerRequest;
@@ -17,7 +18,6 @@ import javax.inject.Inject;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.Response;
 
 @Priority(Priorities.AUTHORIZATION)
 public class AccessTokenFilter implements ContainerRequestFilter {
@@ -38,7 +38,7 @@ public class AccessTokenFilter implements ContainerRequestFilter {
         String authHeader = requestContext.getHeaderString(OAuth1Parameters.AUTHORIZATION_HEADER);
 
         if (authHeader == null || !authHeader.toUpperCase().startsWith(OAuth1Parameters.SCHEME.toUpperCase())) {
-            throw new OAuth1Exception(Response.Status.BAD_REQUEST, "OAuth parameters not found.");
+            throw new OAuth1BadRequestException("OAuth1 header not found.");
         } else {
             OAuthServerRequest osr = new OAuthServerRequest(requestContext);
             OAuth1Parameters params = new OAuth1Parameters().readRequest(osr);
@@ -48,13 +48,14 @@ public class AccessTokenFilter implements ContainerRequestFilter {
 
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("consumerKey: {}", consumerKey);
+                LOGGER.debug("accessTokenKey: {}", token);
             }
 
             OAuth1Consumer consumer = oauth1Provider.getConsumer(consumerKey);
             OAuth1Token accessToken = oauth1Provider.getAccessToken(token);
 
             if (consumer == null || accessToken == null) {
-                throw new OAuth1Exception(Response.Status.BAD_REQUEST, null);
+                throw new OAuth1BadRequestException("OAuth1 parameters not found.");
             }
 
             OAuth1Secrets secrets = new OAuth1Secrets().consumerSecret(consumer.getSecret())
@@ -69,7 +70,7 @@ public class AccessTokenFilter implements ContainerRequestFilter {
 
             if (!sigIsOk) {
                 // signature invalid
-                throw new OAuth1Exception(Response.Status.UNAUTHORIZED, "invalid OAuth1 parameters.");
+                throw new OAuth1UnauthorizedException("invalid OAuth1 parameters.");
             }
         }
     }

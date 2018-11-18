@@ -37,9 +37,9 @@ public class OAuth1Resource {
     @Produces(MediaType.TEXT_HTML)
     public Viewable getSignin() {
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("postSigninUrl", "http://127.0.0.1:8080/jersey2-server/api/oauth/check-signin");
+        parameters.put("postSigninUrl", "http://localhost:8080/api-server/api/oauth/check-signin");
         parameters.put("oauthToken", "token");
-        parameters.put("forgotPasswordUrl", "http://127.0.0.1:8080/jersey2-server/api/password/forgot-password");
+        parameters.put("forgotPasswordUrl", "http://localhost:8080/api-server/api/password/forgot-password");
 
         return new Viewable("/signin.jsp", parameters);
     }
@@ -49,7 +49,7 @@ public class OAuth1Resource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     public Viewable postSignin(@FormParam("authorize") String authorization, @FormParam("oauth_token") String token, @FormParam("username") String ident, @FormParam("password") String password) {
-        Map<String, String> parameters = new HashMap<String, String>();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("authorization", authorization);
         parameters.put("token", token);
         parameters.put("ident", ident);
