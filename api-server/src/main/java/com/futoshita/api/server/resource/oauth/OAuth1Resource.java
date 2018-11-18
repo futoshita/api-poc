@@ -41,7 +41,7 @@ public class OAuth1Resource {
         parameters.put("oauthToken", "token");
         parameters.put("forgotPasswordUrl", "http://localhost:8080/api-server/api/password/forgot-password");
 
-        return new Viewable("/signin.jsp", parameters);
+        return new Viewable("/oauth-signin.jsp", parameters);
     }
 
     @POST
@@ -55,7 +55,7 @@ public class OAuth1Resource {
         parameters.put("ident", ident);
         parameters.put("password", password);
 
-        return new Viewable("/check-signin.jsp", parameters);
+        return new Viewable("/oauth-check-signin.jsp", parameters);
     }
 
 }

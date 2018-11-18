@@ -1,0 +1,59 @@
+.login-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.loginForm {
+  position: relative;
+  position: fixed;
+  margin: 0 auto;
+  border: 0 none;
+  margin-left: -175px;
+  margin-top: -61px;
+  left: 50%;
+  top: 50%;
+}
+
+.contact-support {
+  position: absolute;
+  margin: 0 auto;
+  border: 0 none;
+  top: 95%;
+  text-align: center;
+  color: rgb(9, 76, 145);
+  font-weight: bold;
+  width: 100%;
+}
+
+.icon-lock {
+  background-image:url(../images/lock.png) !important;
+}
+
+.icon-cancel {
+  background-image:url(../images/cancel.png) !important;
+}
+
+.icon-question {
+  background-image:url(../images/question.gif) !important;
+}
+
+.icon-sign-in {
+  background-image:url(../images/signin.png) !important;
+}
+
+.strengthmeter {
+  background-image:url(../images/meter.gif);
+  background-size: 100%;
+  width : 100%;
+  float: right;
+}
+ 
+.scorebar {
+  background-color : white;
+  float: right;
+  line-height : 6px;
+  width : 100%;
+}
