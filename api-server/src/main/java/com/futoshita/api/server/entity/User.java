@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -19,14 +20,14 @@ public class User implements Serializable {
 
     @DecimalMin(value = "1")
     private Long id;
-    @Email(message = "{user.wrong.email}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+    @Email(message = "{user.email.wrong.format}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
     private String email;
     @XmlAttribute(required = true)
-    @NotNull(message = "{user.wrong.ident}")
-    @Length(min = 2, max = 10)
+    @NotNull(message = "{user.ident.null}")
+    @Size(min = 2, max = 10, message = "{user.ident.wrong.format}")
     private String ident;
     @XmlAttribute(required = false)
-    @Length(min = 8, max = 15)
+    @Length(min = 8, max = 15, message = "{user.password.wrong.format}")
     private String password;
 
     public User() {
@@ -89,9 +90,9 @@ public class User implements Serializable {
             return false;
         }
 
-        if (password != null ? !password.equals(that.password) : that.password != null) {
-            return false;
-        }
+//        if (password != null ? !password.equals(that.password) : that.password != null) {
+//            return false;
+//        }
 
         return true;
     }
@@ -100,7 +101,7 @@ public class User implements Serializable {
     public int hashCode() {
         int result = ident != null ? ident.hashCode() : 0;
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        //result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
     }
 

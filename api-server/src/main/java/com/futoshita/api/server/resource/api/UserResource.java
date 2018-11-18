@@ -2,6 +2,7 @@ package com.futoshita.api.server.resource.api;
 
 import com.futoshita.api.server.entity.User;
 import com.futoshita.api.server.entity.constraint.HasId;
+import com.futoshita.api.server.entity.constraint.UniqueUser;
 import com.futoshita.api.server.service.StorageService;
 import com.futoshita.api.server.service.exception.NonUniqueException;
 import org.slf4j.Logger;
@@ -12,6 +13,9 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("/users")
@@ -21,9 +25,19 @@ public class UserResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @HasId
-    public User addUser(@NotNull @Valid User user) throws NonUniqueException {
-        return StorageService.addUser(user);
+    //@HasId
+    public Response addUser(@NotNull @Valid @UniqueUser User user) throws URISyntaxException, NonUniqueException {
+        URI uri;
+
+        try {
+            User newUser = StorageService.addUser(user);
+            uri = new URI("/api/users/" + newUser.getId());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw e;
+        }
+
+        return Response.created(uri).build();
     }
 
     @GET
@@ -46,10 +60,10 @@ public class UserResource {
 
     @GET
     @Path("{id}")
-    @NotNull(message = "{user.does.not.exist}")
+    @NotNull(message = "{user.not.found}")
     @HasId
     public User getUser(
-            @DecimalMin(value = "0", message = "{user.wrong.id}") @PathParam("id") final Long id) {
+            @DecimalMin(value = "0", message = "{user.id.wrong.format}") @PathParam("id") final Long id) {
         return StorageService.get(id);
     }
 
@@ -62,10 +76,10 @@ public class UserResource {
 
     @DELETE
     @Path("{id}")
-    @NotNull(message = "{user.does.not.exist}")
+    @NotNull(message = "{user.not.found}")
     @HasId
     public User deleteUser(
-            @DecimalMin(value = "0", message = "{user.wrong.id}") @PathParam("id") final Long id) {
+            @DecimalMin(value = "0", message = "{user.id.wrong.format}") @PathParam("id") final Long id) {
         return StorageService.remove(id);
     }
 

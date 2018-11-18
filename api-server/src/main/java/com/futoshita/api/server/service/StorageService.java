@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class StorageService {
 
     private static final AtomicLong userCounter = new AtomicLong(0);
-    private static final Map<Long, User> users = new HashMap<Long, User>();
+    private static final Map<Long, User> users = new HashMap<>();
 
     /**
      * Adds a user into the storage. If a user with given data already exist
