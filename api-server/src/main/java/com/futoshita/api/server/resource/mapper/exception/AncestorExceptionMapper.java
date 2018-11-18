@@ -18,19 +18,30 @@ public abstract class AncestorExceptionMapper {
         List<ErrorRepresentation> errors = new ArrayList<>();
         errors.add(error);
 
-        Response.ResponseBuilder response = Response.status(status);
-
-        List<Variant> variants = Variant.mediaTypes(new MediaType[]{MediaType.APPLICATION_XML_TYPE, MediaType.APPLICATION_JSON_TYPE}).build();
-        Variant variant = request.get().selectVariant(variants);
-        if (variant != null) {
-            response.type(variant.getMediaType());
-        } else {
-            response.type(MediaType.APPLICATION_JSON_TYPE);
-        }
+        Response.ResponseBuilder response = Response.status(status).type(getMediaType());
 
         response.entity(new GenericEntity(errors, (new GenericType<List<ErrorRepresentation>>() {
         }).getType()));
 
         return response.build();
+    }
+
+    protected Response buildResponse(List<ErrorRepresentation> errors, Response.Status status) {
+        Response.ResponseBuilder response = Response.status(status).type(getMediaType());
+
+        response.entity(new GenericEntity(errors, (new GenericType<List<ErrorRepresentation>>() {
+        }).getType()));
+
+        return response.build();
+    }
+
+    private MediaType getMediaType() {
+        List<Variant> variants = Variant.mediaTypes(new MediaType[]{MediaType.APPLICATION_XML_TYPE, MediaType.APPLICATION_JSON_TYPE}).build();
+        Variant variant = request.get().selectVariant(variants);
+        if (variant != null) {
+            return variant.getMediaType();
+        } else {
+            return MediaType.APPLICATION_JSON_TYPE;
+        }
     }
 }

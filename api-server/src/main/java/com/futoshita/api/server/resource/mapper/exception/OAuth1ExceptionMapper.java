@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
@@ -15,11 +16,9 @@ public class OAuth1ExceptionMapper extends AncestorExceptionMapper implements Ex
 
     @Override
     public Response toResponse(OAuth1Exception ex) {
-        Exception e = new Exception(ex.getWwwAuthHeader());
+        LOGGER.warn(ex.getMessage(), ex);
 
-        LOGGER.error(e.getMessage());
-
-        return buildResponse(e, ex.getStatus());
+        return buildResponse(ex, Status.UNAUTHORIZED);
     }
 
 }

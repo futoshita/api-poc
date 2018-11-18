@@ -3,6 +3,7 @@ package com.futoshita.api.server.resource.mapper.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -15,7 +16,7 @@ public class UnexpectedExceptionMapper extends AncestorExceptionMapper implement
 
     @Override
     public Response toResponse(Throwable ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.error(ex.getMessage(), ex);
 
         return buildResponse(ex, Status.INTERNAL_SERVER_ERROR);
     }

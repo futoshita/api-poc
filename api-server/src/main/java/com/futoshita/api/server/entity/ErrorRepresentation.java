@@ -14,9 +14,20 @@ public class ErrorRepresentation implements Serializable {
 
     @XmlAttribute(required = true)
     private String message;
+    @XmlAttribute(required = false)
+    private String messageTemplate;
 
     public ErrorRepresentation() {
 
+    }
+
+    public ErrorRepresentation(String message) {
+        this.message = message;
+    }
+
+    public ErrorRepresentation(String message, String messageTemplate) {
+        this.message = message;
+        this.messageTemplate = messageTemplate;
     }
 
     public String getMessage() {
@@ -27,4 +38,11 @@ public class ErrorRepresentation implements Serializable {
         this.message = message;
     }
 
+    public String getMessageTemplate() {
+        return messageTemplate;
+    }
+
+    public void setMessageTemplate(String messageTemplate) {
+        this.messageTemplate = messageTemplate;
+    }
 }

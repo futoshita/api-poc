@@ -16,7 +16,7 @@ public class ConflictExceptionMapper extends AncestorExceptionMapper implements 
 
     @Override
     public Response toResponse(NonUniqueException ex) {
-        LOGGER.error(ex.getMessage());
+        LOGGER.warn(ex.getMessage(), ex);
 
         return buildResponse(ex, Status.CONFLICT);
     }
